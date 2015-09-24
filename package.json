@@ -1,0 +1,20 @@
+{
+  "name": "react-notifications",
+  "version": "0.0.1",
+  "description": "React notifications",
+  "main": "dist/react-notifications.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "6to5ify": "^4.1.1",
+    "gulp": "^3.9.0",
+    "gulp-browserify2": "0.0.2",
+    "gulp-cssi": "0.0.5",
+    "gulp-jsx": "^2.0.1",
+    "gulp-livereload": "^3.8.0",
+    "jsx-transform": "^2.2.1"
+  }
+}

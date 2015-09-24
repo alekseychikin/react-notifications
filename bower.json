@@ -1,0 +1,20 @@
+{
+  "name": "react-notifications",
+  "version": "0.0.1",
+  "authors": [
+    "makingoff <mail@makingoff.name>"
+  ],
+  "description": "React notifications",
+  "main": "dist/react-notifications.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.13.3"
+  }
+}
