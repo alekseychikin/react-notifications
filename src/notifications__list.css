@@ -1,7 +1,7 @@
 .notifications__list {
-  
+
 }
 
 .notifications__list + .notifications__list {
-  margin-top: 12px;
+  /*margin-top: 12px;*/
 }

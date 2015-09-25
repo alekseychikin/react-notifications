@@ -115,7 +115,7 @@ var NotificationList = React.createClass({
 });
 
 var Notification = React.createClass({
-  handCloseNotification: function ()
+  handleCloseNotification: function ()
   {
     this.props.closeNotification(this.props.notification);
   },
@@ -123,16 +123,18 @@ var Notification = React.createClass({
   {
     var rightElement;
     if (this.props.listType !== 'history') {
-      if (this.props.notification.type === LOW_TYPE) {
+      if (this.props.notification.type === LOW_TYPE || this.props.notificationLength < 2) {
         rightElement = (
           <div className="notifications__button notifications__button--close">
-            <button className="notifications__close" onClick={this.handCloseNotification}></button>
+            <button className="notifications__close" onClick={this.handleCloseNotification}></button>
           </div>
         )
       }
       else {
         rightElement = (
-          <div className="notifications__button notifications__button--show-next">{this.props.notificationLength}</div>
+          <div className="notifications__button notifications__button--show-next">
+            <button className="notifications__read-next" onClick={this.handleCloseNotification}>{this.props.notificationLength}</button>
+          </div>
         )
       }
     }

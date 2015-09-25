@@ -6,6 +6,7 @@
   border-radius: 0;
   margin-top: 0;
   box-shadow: none;
+  margin-bottom: 0;
 }
 
 .notifications__list--history .notifications__item:first-child {

@@ -6,8 +6,8 @@
   min-height: 32px;
   border-radius: 4px;
   box-shadow: 0 10px 30px #AFAFAF;
+  margin-bottom: 12px;
 }
 
 .notifications__item + .notifications__item {
-  margin-top: 12px;
 }
