@@ -15,6 +15,8 @@
     "gulp-cssi": "0.0.5",
     "gulp-jsx": "^2.0.1",
     "gulp-livereload": "^3.8.0",
-    "jsx-transform": "^2.2.1"
+    "gulp-reactify": "^3.0.1",
+    "jsx-transform": "^2.2.1",
+    "react-tools": "^0.13.3"
   }
 }

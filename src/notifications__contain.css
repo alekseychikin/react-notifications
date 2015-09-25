@@ -1,7 +1,0 @@
-.notifications__contain {
-  box-shadow: 0 10px 30px #AFAFAF;
-}
-
-.notifications__contain + .notifications__contain {
-  margin-top: 12px;
-}

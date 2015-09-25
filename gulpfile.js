@@ -3,16 +3,19 @@ var browserify = require('gulp-browserify2');
 var livereload = require('gulp-livereload');
 var jsxify = require('jsx-transform').browserifyTransform;
 var cssi = require('gulp-cssi');
+var reactify = require('gulp-reactify');
+var reactTools = require('react-tools');
 
 gulp.task('default', ['prepare-js', 'prepare-css']);
 
 gulp.task('prepare-js', function ()
 {
-  gulp.src('src/**/*.jsx')
+  gulp.src('src/index.jsx')
+  .pipe(reactify({reactTools: reactTools}))
   .pipe(browserify({
     fileName: 'react-notifications.js',
     extensions: ['.js', '.jsx', '.es', '.es6'],
-    transform: [require('6to5ify'), jsxify.configure({factory: 'React.createClass'})],
+    transform: [require('6to5ify')],
     options: {debug: true}
   }))
   .pipe(gulp.dest('dist'))

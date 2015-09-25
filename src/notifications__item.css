@@ -1,18 +1,15 @@
 .notifications__item {
   background-color: #3D3935;
   color: #F0EFEC;
-  padding: 30px 25px 30px 70px;
+  padding: 20px 25px 20px 70px;
   position: relative;
+  min-height: 32px;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px #AFAFAF;
 }
 
-.notifications__item:first-child {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-}
-
-.notifications__item:last-child {
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+.notifications__item + .notifications__item {
+  margin-top: 12px;
 }
 
 .notifications__item + .notifications__item:after {
