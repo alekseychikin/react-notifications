@@ -11,44 +11,57 @@ var Notifications = React.createClass({
           desc: 'Спасибо, что вы есть!',
           type: 'low',
           id: 'not1',
-          readed: false
+          readed: false,
+          date: '21.09.2015'
         },
         {
           desc: 'Обратите внимание, по правилам, в следующем конкурсе вы сможете участвовать после 12:00, 27 ноября',
           type: 'hight',
           id: 'not2',
-          readed: false
+          readed: false,
+          date: '22.09.2015'
         },
         {
           desc: 'Идите нахер!',
           type: 'low',
           id: 'not3',
-          readed: false
+          readed: false,
+          date: '23.09.2015'
         },
         {
           desc: 'Обратите внимание, по правилам, в следующем конкурсе вы сможете участвовать после 12:00, 27 ноября',
           type: 'hight',
           id: 'not4',
-          readed: true
+          readed: true,
+          date: '24.09.2015'
         },
         {
           desc: 'Вы получили купон на скидку 7%!',
           type: 'hight',
           id: 'not5',
-          readed: false
+          readed: false,
+          date: '25.09.2015'
         },
         {
           desc: 'Вы удалили свою шару, поэтому хрен вам, а не купон! Убейтесь головой об стену. Читайте внимательнее правила. Какой же вы неудачник, всему нашему офису стыдно за вас. Фу бля, весь день испоганил :(',
           type: 'hight',
           id: 'not6',
-          readed: true
+          readed: true,
+          date: '26.09.2015'
         }
       ]
     };
   },
-  handleCloseNotification: function (notificationIndex)
+  handleCloseNotification: function (notification)
   {
-    console.log(notificationIndex);
+    var newStateData = this.state.data.map(function (item)
+    {
+      if (item.id === notification.id) {
+        item.readed = true;
+      }
+      return item;
+    });
+    this.setState({data: newStateData});
   },
   render: function ()
   {
@@ -74,12 +87,22 @@ var NotificationList = React.createClass({
   render: function ()
   {
     var listType = this.props.listType || 'newbox';
-    var notificationLength = this.props.data.length;
     var closeNotification = this.props.closeNotification;
-    var notificationNodes = this.props.data.map(function (notification, index)
+    var data = this.props.data.reverse()
+    var countImportantMessages = 0;
+    if (listType !== 'history') {
+      data = data.filter(function (notification)
+      {
+        if (notification.type !== 'low' && countImportantMessages++ > 0) {
+          return false;
+        }
+        return true;
+      });
+    }
+    var notificationNodes = data.map(function (notification, index)
     {
       return (
-        <Notification closeNotification={closeNotification} notification={notification} notificationLength={notificationLength} key={index} />
+        <Notification listType={listType} closeNotification={closeNotification} notification={notification} notificationLength={countImportantMessages} key={'notification' + index} />
       );
     });
     var className = 'notifications__list' + (listType === 'history' ? ' notifications__list--history' : '');
@@ -99,16 +122,23 @@ var Notification = React.createClass({
   render: function ()
   {
     var rightElement;
-    if (this.props.notification.type === LOW_TYPE) {
-      rightElement = (
-        <div className="notifications__button notifications__button--close">
-          <button className="notifications__close" onClick={this.handCloseNotification}></button>
-        </div>
-      )
+    if (this.props.listType !== 'history') {
+      if (this.props.notification.type === LOW_TYPE) {
+        rightElement = (
+          <div className="notifications__button notifications__button--close">
+            <button className="notifications__close" onClick={this.handCloseNotification}></button>
+          </div>
+        )
+      }
+      else {
+        rightElement = (
+          <div className="notifications__button notifications__button--show-next">{this.props.notificationLength}</div>
+        )
+      }
     }
     else {
       rightElement = (
-        <div className="notifications__button notifications__button--show-next">{this.props.notificationLength}</div>
+        <div className="notifications__button notifications__button--date">{this.props.notification.date}</div>
       )
     }
     return (

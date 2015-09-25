@@ -2,7 +2,9 @@
 @import url("../src/notifications.css");
 @import url("../src/notifications__button.css");
 @import url("../src/notifications__button--close.css");
+@import url("../src/notifications__button--date.css");
 @import url("../src/notifications__button--show-next.css");
+@import url("../src/notifications__close.css");
 @import url("../src/notifications__desc.css");
 @import url("../src/notifications__item.css");
 @import url("../src/notifications__list.css");

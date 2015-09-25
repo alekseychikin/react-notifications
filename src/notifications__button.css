@@ -4,16 +4,5 @@
   position: relative;
   height: 50px;
   box-sizing: border-box;
-  padding: 0 15px;
   color: #766B63;
-  cursor: pointer;
-}
-
-.notifications__button:before {
-  content: '';
-  border-left: 1px dotted #5B544D;
-  left: 0;
-  top: -5px;
-  bottom: 15px;
-  position: absolute;
 }

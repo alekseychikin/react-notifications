@@ -1,7 +1,7 @@
 .notifications__item {
   background-color: #3D3935;
   color: #F0EFEC;
-  padding: 20px 25px 20px 70px;
+  padding: 20px 0 20px 70px;
   position: relative;
   min-height: 32px;
   border-radius: 4px;
@@ -10,14 +10,4 @@
 
 .notifications__item + .notifications__item {
   margin-top: 12px;
-}
-
-.notifications__item + .notifications__item:after {
-  content: '';
-  position: absolute;
-  height: 1px;
-  border-top: 1px dotted #5B544D;
-  left: 70px;
-  right: 0;
-  top: 0;
 }
