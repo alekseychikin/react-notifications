@@ -1,0 +1,13 @@
+.notifications__button--show-next {
+  padding: 0 15px;
+}
+
+
+.notifications__button--show-next:before {
+  content: '';
+  border-left: 1px dotted #5B544D;
+  left: 0;
+  top: -5px;
+  bottom: 15px;
+  position: absolute;
+}

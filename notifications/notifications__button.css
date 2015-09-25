@@ -1,0 +1,8 @@
+.notifications__button {
+  float: right;
+  width: 70px;
+  position: relative;
+  height: 50px;
+  box-sizing: border-box;
+  color: #766B63;
+}

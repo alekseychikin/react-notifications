@@ -10,12 +10,12 @@ gulp.task('default', ['prepare-js', 'prepare-css']);
 
 gulp.task('prepare-js', function ()
 {
-  gulp.src('src/index.jsx')
-  .pipe(reactify({reactTools: reactTools}))
+  gulp.src('src/index.js')
+  // .pipe(reactify({reactTools: reactTools}))
   .pipe(browserify({
-    fileName: 'react-notifications.js',
+    fileName: 'index.js',
     extensions: ['.js', '.jsx', '.es', '.es6'],
-    transform: [require('6to5ify')],
+    transform: [require('6to5ify'), jsxify.configure({factory: 'React.createClass'})],
     options: {debug: true}
   }))
   .pipe(gulp.dest('dist'))
@@ -26,9 +26,9 @@ gulp.task('prepare-css', function ()
 {
   gulp.src([
     'src/reset.css',
-    'src/**/*.css'
+    'notifications/**/*.css'
   ])
-  .pipe(cssi('styles.css', {prefix: '../src/'}))
+  .pipe(cssi('styles.css', {prefix: '../notifications/'}))
   .pipe(gulp.dest('dist'))
   .pipe(livereload());
 });
@@ -36,6 +36,6 @@ gulp.task('prepare-css', function ()
 gulp.task('watch', ['default'], function ()
 {
   livereload.listen();
-  gulp.watch('src/**/*.jsx', ['prepare-js']);
-  gulp.watch('src/**/*.css', ['prepare-css']);
+  gulp.watch('src/**/*.{js,jsx}', ['prepare-js']);
+  gulp.watch('notifications/**/*.css', ['prepare-css']);
 });

@@ -1,0 +1,10 @@
+.notifications__read-next {
+  border: none;
+  cursor: pointer;
+  background: transparent url('notifications__read-next.svg') center top no-repeat;
+  width: 40px;
+  height: 20px;
+  color: #796E65;
+  cursor: pointer;
+  padding-top: 22px;
+}
