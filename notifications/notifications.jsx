@@ -3,53 +3,18 @@ var React = require('../bower_components/react/react.js');
 var LOW_TYPE = 'low';
 
 var Notifications = React.createClass({
+  componentDidMount: function ()
+  {
+    window.ListNotifications.addListener('add-notification', this.addNotification);
+    window.ListNotifications.addListener('show-history', this.showHistory);
+    window.ListNotifications.addListener('hide-history', this.hideHistory);
+  },
   getInitialState: function ()
   {
     return {
-      data: [
-        {
-          desc: 'Спасибо, что вы есть!',
-          type: 'low',
-          id: 'not1',
-          readed: false,
-          date: '21.09.2015'
-        },
-        {
-          desc: 'Обратите внимание, по правилам, в следующем конкурсе вы сможете участвовать после 12:00, 27 ноября',
-          type: 'hight',
-          id: 'not2',
-          readed: false,
-          date: '22.09.2015'
-        },
-        {
-          desc: 'Идите нахер!',
-          type: 'low',
-          id: 'not3',
-          readed: false,
-          date: '23.09.2015'
-        },
-        {
-          desc: 'Обратите внимание, по правилам, в следующем конкурсе вы сможете участвовать после 12:00, 27 ноября',
-          type: 'hight',
-          id: 'not4',
-          readed: true,
-          date: '24.09.2015'
-        },
-        {
-          desc: 'Вы получили купон на скидку 7%!',
-          type: 'hight',
-          id: 'not5',
-          readed: false,
-          date: '25.09.2015'
-        },
-        {
-          desc: 'Вы удалили свою шару, поэтому хрен вам, а не купон! Убейтесь головой об стену. Читайте внимательнее правила. Какой же вы неудачник, всему нашему офису стыдно за вас. Фу бля, весь день испоганил :(',
-          type: 'hight',
-          id: 'not6',
-          readed: true,
-          date: '26.09.2015'
-        }
-      ]
+      data: [],
+      unreadedCount: 0,
+      showHistory: false
     };
   },
   addNotification: function (notification)
@@ -58,28 +23,49 @@ var Notifications = React.createClass({
     notification.date = date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
     notification.id = 'not' + this.state.data.length;
     notification.readed = false;
-    this.setState({data: this.state.data.concat([notification])});
+    var unreadedCount = this.state.unreadedCount;
+    if (notification.type !== LOW_TYPE) {
+      unreadedCount++;
+    }
+    this.setState({
+      data: this.state.data.concat([notification]),
+      unreadedCount: unreadedCount
+    });
+    window.ListNotifications.trigger('change-unreaded-count', unreadedCount);
   },
-  componentDidMount: function ()
+  showHistory: function ()
   {
-    window.ListNotifications.addListener('add-notification', this.addNotification);
+    this.setState({showHistory: true});
+  },
+  hideHistory: function ()
+  {
+    this.setState({showHistory: false});
   },
   handleCloseNotification: function (notification)
   {
+    var unreadedCount = this.state.unreadedCount;
     var newStateData = this.state.data.map(function (item)
     {
       if (item.id === notification.id) {
         item.readed = true;
+        if (notification.type !== LOW_TYPE) {
+          unreadedCount--;
+        }
       }
       return item;
     });
-    this.setState({data: newStateData});
+    this.setState({
+      data: newStateData,
+      unreadedCount: unreadedCount
+    });
+    window.ListNotifications.trigger('change-unreaded-count', unreadedCount);
   },
   render: function ()
   {
+    var showHistory = this.state.showHistory;
     var notificationsUnReaded = this.state.data.filter(function (notification)
     {
-      return notification.readed === false;
+      return notification.readed === false && ((notification.type !== LOW_TYPE && showHistory === false) || notification.type === LOW_TYPE);
     });
     var notificationsHighPriority = this.state.data.filter(function (notification)
     {
@@ -89,7 +75,7 @@ var Notifications = React.createClass({
     return (
       <div className="notifications">
         <NotificationList closeNotification={this.handleCloseNotification} data={notificationsUnReaded} />
-        <NotificationList closeNotification={this.handleCloseNotification} data={notificationsHighPriority} listType="history" />
+        <NotificationList isShowHistory={this.state.showHistory} closeNotification={this.handleCloseNotification} data={notificationsHighPriority} listType="history" />
       </div>
     );
   }
@@ -111,6 +97,9 @@ var NotificationList = React.createClass({
         return true;
       });
     }
+    var historyStyles = {
+      display: (listType !== 'history' || this.props.isShowHistory ? 'block' : 'none')
+    };
     var notificationNodes = data.map(function (notification, index)
     {
       return (
@@ -119,7 +108,7 @@ var NotificationList = React.createClass({
     });
     var className = 'notifications__list' + (listType === 'history' ? ' notifications__list--history' : '');
     return (
-      <div className={className}>
+      <div style={historyStyles} className={className}>
         {notificationNodes}
       </div>
     );
