@@ -5,8 +5,6 @@
   line-height: 0;
   font-size: 0;
   font: 300 15px/20px 'Helvetica Neue', 'Arial', sans-serif;
-  position: absolute;
-  top: 30px;
-  left: 830px;
   text-align: center;
+  cursor: pointer;
 }

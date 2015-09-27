@@ -1,6 +1,5 @@
 .notification-counts__contain--active {
   background-color: #FD484F;
-  cursor: pointer;
 }
 
 .notification-counts__contain--active .notification-counts__numbers {
