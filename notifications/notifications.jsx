@@ -1,6 +1,7 @@
 var React = require('../bower_components/react/react.js');
 
 var LOW_TYPE = 'low';
+var LIMIT_HISTORY = 5;
 
 var Notifications = React.createClass({
   componentDidMount: function ()
@@ -8,6 +9,7 @@ var Notifications = React.createClass({
     window.ListNotifications.addListener('add-notification', this.addNotification);
     window.ListNotifications.addListener('show-history', this.showHistory);
     window.ListNotifications.addListener('hide-history', this.hideHistory);
+    window.ListNotifications.addListener('toggle-history', this.toggleHistory);
   },
   getInitialState: function ()
   {
@@ -31,6 +33,13 @@ var Notifications = React.createClass({
       data: this.state.data.concat([notification]),
       unreadedCount: unreadedCount
     });
+    var closeNotification = this.handleCloseNotification;
+    if (notification.type === LOW_TYPE) {
+      setTimeout(function ()
+      {
+        closeNotification(notification);
+      }, 5000);
+    }
     window.ListNotifications.trigger('change-unreaded-count', unreadedCount);
   },
   showHistory: function ()
@@ -41,6 +50,10 @@ var Notifications = React.createClass({
   {
     this.setState({showHistory: false});
   },
+  toggleHistory: function ()
+  {
+    this.setState({showHistory: !this.state.showHistory});
+  },
   handleCloseNotification: function (notification)
   {
     var unreadedCount = this.state.unreadedCount;
@@ -50,6 +63,9 @@ var Notifications = React.createClass({
         item.readed = true;
         if (notification.type !== LOW_TYPE) {
           unreadedCount--;
+        }
+        if (typeof notification.cb === 'function') {
+          notification.cb();
         }
       }
       return item;
@@ -67,13 +83,14 @@ var Notifications = React.createClass({
     {
       return notification.readed === false && ((notification.type !== LOW_TYPE && showHistory === false) || notification.type === LOW_TYPE);
     });
+    var index = 0;
     var notificationsHighPriority = this.state.data.filter(function (notification)
     {
-      return notification.type !== 'low';
+      return notification.type !== 'low' && index++ < LIMIT_HISTORY;
     });
     var boundCloseNotification = this.handleCloseNotification;
     return (
-      <div className="notifications">
+      <div className="notifications__contain">
         <NotificationList closeNotification={this.handleCloseNotification} data={notificationsUnReaded} />
         <NotificationList isShowHistory={this.state.showHistory} closeNotification={this.handleCloseNotification} data={notificationsHighPriority} listType="history" />
       </div>

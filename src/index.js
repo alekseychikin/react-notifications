@@ -18,6 +18,10 @@ window.ListNotifications = (function ()
     {
       this.trigger('hide-history');
     },
+    toggleHistory: function ()
+    {
+      this.trigger('toggle-history');
+    },
     trigger: function (event, data)
     {
       events.forEach(function (eventItem)
@@ -30,54 +34,54 @@ window.ListNotifications = (function ()
   };
 })();
 
-ListNotifications.addListener('change-unreaded-count', function (value)
-{
-  console.log('unreaded notifications', value);
-});
-
 var data = [
   {
     desc: 'Спасибо, что вы есть!',
-    type: 'low',
-    id: 'not1',
-    readed: false,
-    date: '21.09.2015'
+    type: 'low'
   },
   {
     desc: 'Обратите внимание, по правилам, в следующем конкурсе вы сможете участвовать после 12:00, 27 ноября',
     type: 'hight',
-    id: 'not2',
-    readed: false,
-    date: '22.09.2015'
   },
   {
     desc: 'Идите нахер!',
-    type: 'low',
-    id: 'not3',
-    readed: false,
-    date: '23.09.2015'
+    type: 'low'
   },
   {
     desc: 'Обратите внимание, по правилам, в следующем конкурсе вы сможете участвовать после 12:00, 27 ноября',
     type: 'hight',
-    id: 'not4',
-    readed: true,
-    date: '24.09.2015'
+    cb: function ()
+    {
+      console.log('Wow');
+    }
   },
   {
     desc: 'Вы получили купон на скидку 7%!',
-    type: 'hight',
-    id: 'not5',
-    readed: false,
-    date: '25.09.2015'
+    type: 'hight'
   },
   {
     desc: 'Вы удалили свою шару, поэтому хрен вам, а не купон! Убейтесь головой об стену. Читайте внимательнее правила. Какой же вы неудачник, всему нашему офису стыдно за вас. Фу бля, весь день испоганил :(',
-    type: 'hight',
-    id: 'not6',
-    readed: true,
-    date: '26.09.2015'
+    type: 'hight'
   }
 ];
 
 var Notifications = require('../notifications/notifications.jsx');
+var NotificationCounts = require('../notification-counts/notification-counts.jsx');
+var i = 0;
+var makenotification = function ()
+{
+  setTimeout(function ()
+  {
+    ListNotifications.addNotification({
+      desc: data[i].desc,
+      type: data[i].type,
+      cb: data[i].cb
+    });
+    i++;
+    if (i == data.length) {
+      i = 0;
+    }
+    makenotification();
+  }, Math.random() * 3000 + 4000);
+};
+makenotification();

@@ -1,0 +1,10 @@
+.notification-counts__numbers {
+  display: inline-block;
+  vertical-align: top;
+  color: #FFF;
+  font-size: 12px;
+  line-height: 20px;
+  margin-top: 13px;
+  margin-left: 3px;
+  visibility: hidden;
+}

@@ -26,9 +26,10 @@ gulp.task('prepare-css', function ()
 {
   gulp.src([
     'src/reset.css',
-    'notifications/**/*.css'
+    'notifications/**/*.css',
+    'notification-counts/**/*.css'
   ])
-  .pipe(cssi('styles.css', {prefix: '../notifications/'}))
+  .pipe(cssi('styles.css', {prefix: '../', saveEnclosure: 1}))
   .pipe(gulp.dest('dist'))
   .pipe(livereload());
 });

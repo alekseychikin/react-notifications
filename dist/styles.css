@@ -10,3 +10,8 @@
 @import url("../notifications/notifications__list--history.css");
 @import url("../notifications/notifications__read-next.css");
 @import url("../notifications/reset.css");
+@import url("../notification-counts/notification-counts.css");
+@import url("../notification-counts/notification-counts__contain.css");
+@import url("../notification-counts/notification-counts__contain--active.css");
+@import url("../notification-counts/notification-counts__img.css");
+@import url("../notification-counts/notification-counts__numbers.css");
