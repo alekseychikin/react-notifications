@@ -22,7 +22,7 @@ var NotificationCounts = React.createClass({
   render: function ()
   {
     var notificationCountsContainClassName = 'notification-counts__contain' + (this.state.count > 0 ? ' notification-counts__contain--active' : '');
-    var notificationImgSrc = '/notification-counts/notification-counts__img'  + (this.state.count > 0 ? '--active' : '') + '.svg';
+    var notificationImgSrc = 'notification-counts/notification-counts__img'  + (this.state.count > 0 ? '--active' : '') + '.svg';
     return (
       <div className={notificationCountsContainClassName} onClick={this.handleToggleHistory}>
         <img className="notification-counts__img" src={notificationImgSrc} alt="" />
